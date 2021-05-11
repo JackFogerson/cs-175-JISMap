@@ -4,6 +4,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,6 +43,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.addMarker(new MarkerOptions(). position(LOCATION_CS).title("Find me here!"));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(latLng));
+            }
+        });
     }
 
     public void getLocation(View view){
