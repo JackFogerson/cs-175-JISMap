@@ -74,4 +74,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mMap.animateCamera(update);
     }
+
+    public void mapView(View view){
+        mMap.setMapType(mMap.MAP_TYPE_NORMAL);
+    }
+
+    public void satView(View view){
+        mMap.setMapType(mMap.MAP_TYPE_SATELLITE);
+    }
+
+    public void terView(View view){
+        mMap.setMapType(mMap.MAP_TYPE_TERRAIN);
+    }
 }

@@ -29,9 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="25dp"
-        android:text="City"
+        android:layout_marginTop="15dp"
         android:onClick="switchView"
+        android:text="City"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,22 +39,51 @@
         android:id="@+id/univ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Univ"
         android:onClick="switchView"
-        app:layout_constraintEnd_toStartOf="@+id/cs"
-        app:layout_constraintStart_toEndOf="@+id/city"
-        app:layout_constraintTop_toTopOf="@+id/map" />
+        android:text="Univ"
+        app:layout_constraintEnd_toEndOf="@+id/city"
+        app:layout_constraintStart_toStartOf="@+id/city"
+        app:layout_constraintTop_toBottomOf="@+id/city" />
 
     <Button
         android:id="@+id/cs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="30dp"
-        android:text="CS"
         android:onClick="switchView"
+        android:text="CS"
+        app:layout_constraintEnd_toEndOf="@+id/univ"
+        app:layout_constraintStart_toStartOf="@+id/univ"
+        app:layout_constraintTop_toBottomOf="@+id/univ" />
+
+    <Button
+        android:id="@+id/mapView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:onClick="mapView"
+        android:text="Map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/satView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Satellite"
+        android:onClick="satView"
+        app:layout_constraintEnd_toEndOf="@+id/mapView"
+        app:layout_constraintStart_toStartOf="@+id/mapView"
+        app:layout_constraintTop_toBottomOf="@+id/mapView" />
+
+    <Button
+        android:id="@+id/terrainView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Terrain"
+        android:onClick="terView"
+        app:layout_constraintEnd_toEndOf="@+id/satView"
+        app:layout_constraintStart_toStartOf="@+id/satView"
+        app:layout_constraintTop_toBottomOf="@+id/satView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
