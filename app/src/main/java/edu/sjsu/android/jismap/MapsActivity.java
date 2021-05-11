@@ -19,6 +19,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private final LatLng LOCATION_UNIV = new LatLng(37.335371, -121.881050);
     private final LatLng LOCATION_CS = new LatLng(37.333714, -121.881860);
+    private boolean traffic = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,5 +86,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void terView(View view){
         mMap.setMapType(mMap.MAP_TYPE_TERRAIN);
+    }
+
+    public void trafficView(View view){
+        if(traffic){
+            mMap.setTrafficEnabled(false);
+            traffic = false;
+        }
+        else{
+            mMap.setTrafficEnabled(true);
+            traffic = true;
+        }
     }
 }
