@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JISMap</string>
+    <string name="title_activity_maps">JISMap</string>
+    <string name="mapView">일반지도</string>
+    <string name="satView">위성지도</string>
+    <string name="terView">지형지도</string>
+    <string name="searchHere">검색...</string>
+    <string name="toggle">교통정보표시</string>
+    <string name="location">위치:</string>
+    <string name="lat">위도</string>
+    <string name="lng">경도</string>
+    <string name="youAreAt">현재 위치는</string>
+    <string name="unableToGetLocation">위치를 알수 없습니다.</string>
+</resources>

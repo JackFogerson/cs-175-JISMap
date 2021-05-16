@@ -58,12 +58,12 @@ public class GPSTracker implements OnSuccessListener<Location> {
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
-            Toast.makeText(context, "You are at \n"   +
-                            "Lat " + latitude + "\nLong: " + longitude,
+            Toast.makeText(context, context.getString(R.string.youAreAt) +" \n" +
+                            context.getString(R.string.lat) +" " + latitude + "\n"+ context.getString(R.string.lng) + longitude,
                     Toast.LENGTH_LONG).show();
         }
         else
-            Toast.makeText(context, "Unable to get location",
+            Toast.makeText(context, R.string.unableToGetLocation,
                     Toast.LENGTH_LONG).show();
     }
 

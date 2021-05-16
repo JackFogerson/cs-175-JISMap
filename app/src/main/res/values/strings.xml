@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">JISMap</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">JISMap</string>
+    <string name="mapView">Map</string>
+    <string name="satView">Satellite</string>
+    <string name="terView">Terrain</string>
+    <string name="searchHere">Search here...</string>
+    <string name="toggle">Toggle Traffic View</string>
+    <string name="location">Location:</string>
+    <string name="lat">Latitude</string>
+    <string name="lng">Longitude</string>
+    <string name="youAreAt">You are at</string>
+    <string name="unableToGetLocation">Unable to get location</string>
 </resources>

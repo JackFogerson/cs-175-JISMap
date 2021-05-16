@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,86 +16,105 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="24dp"
         android:clickable="true"
         android:onClick="getLocation"
         android:src="@android:drawable/ic_menu_mylocation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/swLl"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="15dp"
-        android:onClick="switchView"
-        android:text="City"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="9dp"
+        tools:layout_editor_absoluteY="61dp">
 
-    <Button
-        android:id="@+id/univ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="switchView"
-        android:text="Univ"
-        app:layout_constraintEnd_toEndOf="@+id/city"
-        app:layout_constraintStart_toStartOf="@+id/city"
-        app:layout_constraintTop_toBottomOf="@+id/city" />
+        <Button
+            android:id="@+id/mapView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:layout_weight="1"
+            android:onClick="mapView"
+            android:text="@string/mapView"
+            />
 
-    <Button
-        android:id="@+id/cs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="switchView"
-        android:text="CS"
-        app:layout_constraintEnd_toEndOf="@+id/univ"
-        app:layout_constraintStart_toStartOf="@+id/univ"
-        app:layout_constraintTop_toBottomOf="@+id/univ" />
+        <Button
+            android:id="@+id/satView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:layout_weight="1"
+            android:onClick="satView"
+            android:text="@string/satView" />
 
-    <Button
-        android:id="@+id/mapView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="30dp"
-        android:onClick="mapView"
-        android:text="Map"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/terrainView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:layout_weight="1"
+            android:onClick="terView"
+            android:text="@string/terView" />
 
-    <Button
-        android:id="@+id/satView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Satellite"
-        android:onClick="satView"
-        app:layout_constraintEnd_toEndOf="@+id/mapView"
-        app:layout_constraintStart_toStartOf="@+id/mapView"
-        app:layout_constraintTop_toBottomOf="@+id/mapView" />
 
-    <Button
-        android:id="@+id/terrainView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Terrain"
-        android:onClick="terView"
-        app:layout_constraintEnd_toEndOf="@+id/satView"
-        app:layout_constraintStart_toStartOf="@+id/satView"
-        app:layout_constraintTop_toBottomOf="@+id/satView" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchRl"
+        android:background="@drawable/shape"
+        android:layout_marginRight="20dp"
+        android:drawablePadding="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/swLl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/ic"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_location_on_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+
+        <TextView
+            android:layout_toRightOf="@id/ic"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:text="@string/searchHere"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/traffic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="15dp"
-        android:text="Toggle Traffic View"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginBottom="24dp"
         android:onClick="trafficView"
+        android:text="@string/toggle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
