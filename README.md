@@ -33,7 +33,7 @@ This application is built with Java.
 # User Guide using features
 1. Feature 1 - Redirect
    * The JISMap has a button to redirect user to user's current location. It is located at right bottom of screen.
-   * It helps users to find their location when they lost thier location on the map.
+   * It helps users to find their location when they lost their location on the map.
    * Map automatically pans to user on app start, as long as user has enabled location.
   
 2. Feature 2 - Change map style
