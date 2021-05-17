@@ -1,13 +1,15 @@
 package edu.sjsu.android.jismap;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -33,7 +36,6 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +44,8 @@ import java.util.Locale;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private final LatLng LOCATION_UNIV = new LatLng(37.335371, -121.881050);
+    private final LatLng LOCATION_CS = new LatLng(37.333714, -121.881860);
     private boolean traffic = false;
     private Geocoder geocoder;
     Location currentLocation;
@@ -49,16 +53,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int REQUEST_CODE = 101;
     RelativeLayout searchRl;
     CameraUpdate update = null;
+    MarkerOptions place1 = new MarkerOptions();
+    MarkerOptions place2 = new MarkerOptions();
+    Button button;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         searchRl=findViewById(R.id.searchRl);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 
@@ -74,6 +78,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivityForResult(intent,100);
             }
         });
+
+        place1.position(LOCATION_CS);
+        place2.position(LOCATION_UNIV);
+        button = (Button) findViewById(R.id.draw);
+        context = this;
     }
 
     /**
@@ -87,42 +96,91 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng);
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f));
-        mMap.addMarker(markerOptions);
+        mMap = googleMap;
+
+        //
+        List<MarkerOptions> markerList = new ArrayList<MarkerOptions>();
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(latLng));
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                mMap.addMarker(markerOptions);
+                markerList.add(markerOptions);
 
-                List<Address> addresses = new ArrayList<>();
-                try {
-                    addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                android.location.Address address = addresses.get(0);
-
-                if (address != null) {
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < address.getMaxAddressLineIndex(); i++){
-                        sb.append(address.getAddressLine(i) + "\n");
-                    }
-                    Toast.makeText(MapsActivity.this, sb.toString(), Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(MapsActivity.this, R.string.location  + " \n" +
-                                    R.string.lat +" " + latLng.latitude + "\n "+ R.string.lng + latLng.longitude,
-                            Toast.LENGTH_LONG).show();
-                }
             }
         });
+
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                mMap.clear();
+                markerList.clear();
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
+                if(markerList.size()>1){
+                mMap.addPolyline((new PolylineOptions()).add(markerList.get(0).getPosition(), markerList.get(1).getPosition()).
+                        // below line is use to specify the width of poly line.
+                                width(5)
+                        // below line is use to add color to our poly line.
+                        .color(Color.RED)
+                        // below line is to make our poly line geodesic.
+                        .geodesic(true));
+                // on below line we will be starting the drawing of polyline.
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerList.get(0).getPosition(), 13));
+
+                Toast.makeText(context, String.format("%.2f",distance(markerList.get(0).getPosition().latitude, markerList.get(1).getPosition().latitude,
+                        markerList.get(0).getPosition().longitude, markerList.get(1).getPosition().longitude)) +" Kilometers is the distance",
+                        Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(context, "Please add at least 2 markers!",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+    }
+
+
+    //Distance between Markerks
+    // ref: https://www.geeksforgeeks.org/program-distance-two-points-earth/
+    public static double distance(double lat1,
+                                  double lat2, double lon1,
+                                  double lon2)
+    {
+
+        // The math module contains a function
+        // named toRadians which converts from
+        // degrees to radians.
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
     }
 
     private void fetchLastLocation() {
